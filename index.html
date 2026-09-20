@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#F6F6F3">
+  <title>SCITECH COZY CORNER – Photobooth</title>
+
+  <!-- Fonts are optional. If they can't load (offline), the page falls back to the
+       system rounded font automatically. You can delete these three lines safely. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-screen="welcome">
+<div class="app">
+
+  <!-- ============================================================
+       TOP BAR (hidden on the welcome screen)
+       ============================================================ -->
+  <header class="topbar" id="topbar">
+    <span class="topbar-brand">SCITECH COZY CORNER</span>
+
+    <ol class="steps" id="steps" aria-label="Progress">
+      <li class="step"><span class="sr-only">Payment</span></li>
+      <li class="step"><span class="sr-only">Delivery</span></li>
+      <li class="step"><span class="sr-only">Photostrip format</span></li>
+      <li class="step"><span class="sr-only">Photos</span></li>
+      <li class="step"><span class="sr-only">Strip design</span></li>
+    </ol>
+
+    <button class="btn btn-ghost btn-sm" id="btn-start-over" type="button">Start Over</button>
+  </header>
+
+  <main class="screens">
+
+    <!-- ============================================================
+         1. WELCOME
+         ============================================================ -->
+    <section class="screen active" id="screen-welcome" data-screen="welcome" aria-labelledby="welcome-title">
+      <div class="welcome-inner">
+
+        <!-- ▼▼ LOGOS ▼▼
+             Put your image files in an "images" folder next to index.html and
+             change the src paths below. Until the file exists, a dashed
+             placeholder label is shown instead. -->
+        <div class="logos" aria-label="Logos">
+          <div class="logo-slot" data-logo>
+            <img src="images/COLLEGE LOGO.png" alt="College logo">
+            <span class="logo-fallback">[COLLEGE LOGO]</span>
+          </div>
+          <div class="logo-slot" data-logo>
+            <img src="images/Philippine_Christian_University_logo.png" alt="PCU logo">
+            <span class="logo-fallback">[PCU LOGO]</span>
+          </div>
+          <div class="logo-slot" data-logo>
+            <img src="images/Copy of SCITech_w_bg_removed.png" alt="SciTech logo">
+            <span class="logo-fallback">[SCITECH LOGO]</span>
+          </div>
+        </div>
+        <!-- ▲▲ LOGOS ▲▲ -->
+
+        <div class="welcome-copy">
+          <h1 id="welcome-title"><span class="title-line">SCITECH</span> <span class="title-line">COZY CORNER</span></h1>
+          <p class="org">PCU-M Society of Computing Technologists</p>
+          <p class="tagline">Capture a little moment with us. <span class="heart" aria-hidden="true">♡</span></p>
+          <button class="btn btn-primary btn-xl" id="btn-start" type="button">START</button>
+          <p class="notice" id="browser-notice" role="alert" hidden></p>
+        </div>
+
+        <!-- Small decorative photostrip -->
+        <div class="mini-strip" aria-hidden="true">
+          <span class="mini-frame"></span>
+          <span class="mini-frame"></span>
+          <span class="mini-frame"></span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         2. CHOOSE PAYMENT METHOD
+         ============================================================ -->
+    <section class="screen" id="screen-payment" data-screen="payment">
+      <div class="screen-inner">
+        <h2>Choose Payment Method</h2>
+
+        <div class="card-grid cols-2 narrow-grid">
+          <button class="card" type="button" data-payment="cash">
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="6" y="16" width="52" height="32" rx="7"/>
+              <circle cx="32" cy="32" r="8" class="fill-orange"/>
+              <circle cx="15" cy="32" r="2.4" class="fill-ink"/>
+              <circle cx="49" cy="32" r="2.4" class="fill-ink"/>
+            </svg>
+            <span class="card-title">Cash</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+
+          <button class="card" type="button" data-payment="qr">
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="8" y="8" width="18" height="18" rx="4"/>
+              <rect x="38" y="8" width="18" height="18" rx="4"/>
+              <rect x="8" y="38" width="18" height="18" rx="4"/>
+              <rect x="14" y="14" width="6" height="6" class="fill-ink"/>
+              <rect x="44" y="14" width="6" height="6" class="fill-blue"/>
+              <rect x="14" y="44" width="6" height="6" class="fill-orange"/>
+              <path d="M38 40h6M52 40v4M40 52h4M52 52h4M46 46h4"/>
+            </svg>
+            <span class="card-title">QR Payment</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+        </div>
+
+        <div class="nav-row">
+          <button class="btn btn-secondary" type="button" data-goto="welcome">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. PAYMENT CONFIRMATION (cash or QR)
+         ============================================================ -->
+    <section class="screen" id="screen-payment-confirm" data-screen="payment-confirm">
+      <div class="screen-inner">
+
+        <!-- Cash -->
+        <div class="stack" id="payment-cash" hidden>
+          <h2>Payment Method: Cash</h2>
+        </div>
+
+        <!-- QR -->
+        <div class="stack" id="payment-qr" hidden>
+          <h2>Scan to pay</h2>
+
+          <!-- ▼▼ QR PAYMENT IMAGE ▼▼
+               Save your QR image as images/qr-payment.png (or change the path). -->
+          <div class="qr-slot" data-logo>
+            <img src="images/qr.png" alt="QR payment code">
+            <span class="logo-fallback">[QR PAYMENT IMAGE]</span>
+          </div>
+          <!-- ▲▲ QR PAYMENT IMAGE ▲▲ -->
+
+          <button class="btn btn-secondary btn-lg toggle-btn" id="btn-payment-complete" type="button" aria-pressed="false">
+            <svg class="btn-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            <span>Payment Complete</span>
+          </button>
+        </div>
+
+        <div class="nav-row">
+          <button class="btn btn-secondary" type="button" data-goto="payment">Back</button>
+          <button class="btn btn-primary btn-lg" id="btn-payment-continue" type="button">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. PHOTO DELIVERY
+         ============================================================ -->
+    <section class="screen" id="screen-delivery" data-screen="delivery">
+      <div class="screen-inner">
+        <h2>How would you like your photos?</h2>
+
+        <div class="card-grid cols-3 narrow-grid" role="radiogroup" aria-label="Photo delivery">
+
+          <button class="card" type="button" role="radio" aria-checked="false" data-delivery="soft">
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="6" y="14" width="52" height="36" rx="7"/>
+              <path d="M9 19l23 17 23-17"/>
+              <circle cx="52" cy="16" r="6" class="fill-orange"/>
+            </svg>
+            <span class="card-title">Soft Copy</span>
+            <span class="card-desc">Receive your photostrip digitally through email.</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+
+          <button class="card" type="button" role="radio" aria-checked="false" data-delivery="hard">
+            <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M18 22V9h28v13"/>
+              <rect x="6" y="22" width="52" height="24" rx="7"/>
+              <rect x="16" y="36" width="32" height="19" rx="3" class="fill-white"/>
+              <circle cx="48" cy="30" r="2.4" class="fill-blue"/>
+            </svg>
+            <span class="card-title">Hard Copy</span>
+            <span class="card-desc">Receive a physical printed photostrip.</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+
+          <button class="card" type="button" role="radio" aria-checked="false" data-delivery="both">
+            <svg class="icon icon-wide" viewBox="0 0 112 64" aria-hidden="true">
+              <g transform="translate(0 10) scale(.7)" stroke-width="4.3">
+                <rect x="6" y="14" width="52" height="36" rx="7"/>
+                <path d="M9 19l23 17 23-17"/>
+                <circle cx="52" cy="16" r="6" class="fill-orange"/>
+              </g>
+              <path d="M56 24v16M48 32h16"/>
+              <g transform="translate(67 10) scale(.7)" stroke-width="4.3">
+                <path d="M18 22V9h28v13"/>
+                <rect x="6" y="22" width="52" height="24" rx="7"/>
+                <rect x="16" y="36" width="32" height="19" rx="3" class="fill-white"/>
+                <circle cx="48" cy="30" r="2.4" class="fill-blue"/>
+              </g>
+            </svg>
+            <span class="card-title">Soft + Hard Copy</span>
+            <span class="card-desc">Get both a digital copy and a printed photostrip.</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+        </div>
+
+        <!-- Revealed after a delivery option is picked -->
+        <div class="delivery-panel" id="delivery-panel" hidden>
+          <div class="field" id="email-field" hidden>
+            <label for="email-input">Enter your email address</label>
+            <input id="email-input" type="email" inputmode="email" autocomplete="off"
+                   autocapitalize="none" autocorrect="off" spellcheck="false"
+                   placeholder="your@email.com" required aria-describedby="email-error">
+            <p class="field-error" id="email-error" role="alert" hidden>Please enter a valid email address.</p>
+          </div>
+          <p class="hard-note" id="hard-note" hidden>Your photostrip will be prepared for printing.</p>
+        </div>
+
+        <div class="nav-row">
+          <button class="btn btn-secondary" type="button" id="btn-delivery-back">Back</button>
+          <button class="btn btn-primary btn-lg" type="button" id="btn-delivery-continue" disabled>Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. CHOOSE PHOTOSTRIP FORMAT
+         ============================================================ -->
+    <section class="screen" id="screen-format" data-screen="format">
+      <div class="screen-inner">
+        <h2>Choose Your Photostrip</h2>
+
+        <div class="card-grid cols-2 narrow-grid" role="radiogroup" aria-label="Photostrip format">
+
+          <button class="card format-card" type="button" role="radio" aria-checked="false" data-format="3">
+            <span class="strip-preview" aria-hidden="true">
+              <span class="sp-head"></span>
+              <span class="sp-frame"></span><span class="sp-frame"></span><span class="sp-frame"></span>
+              <span class="sp-foot"></span>
+            </span>
+            <span class="pill">3 Photos</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+
+          <button class="card format-card" type="button" role="radio" aria-checked="false" data-format="4">
+            <span class="strip-preview" aria-hidden="true">
+              <span class="sp-head"></span>
+              <span class="sp-frame"></span><span class="sp-frame"></span><span class="sp-frame"></span><span class="sp-frame"></span>
+              <span class="sp-foot"></span>
+            </span>
+            <span class="pill">4 Photos</span>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          </button>
+        </div>
+
+        <div class="summary" data-summary hidden>
+          <div class="summary-text" data-summary-text></div>
+          <button class="btn btn-secondary btn-sm" type="button" data-action="change-delivery">Change</button>
+        </div>
+
+        <div class="nav-row">
+          <button class="btn btn-secondary" type="button" data-goto="delivery">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. CAMERA (live preview inside the page — getUserMedia)
+         ============================================================ -->
+    <section class="screen" id="screen-camera" data-screen="camera" aria-label="Photobooth camera">
+      <h2 class="sr-only">Photobooth camera</h2>
+
+      <div class="camera-layout">
+
+        <div class="camera-main">
+          <div class="stage ratio" id="stage">
+            <video class="fill" id="camera-video" autoplay muted playsinline></video>
+            <div class="fill tint" id="camera-tint"></div>
+
+            <!-- Permission / error state -->
+            <div class="fill camera-overlay" id="camera-overlay" data-state="requesting">
+              <svg class="icon" viewBox="0 0 64 64" aria-hidden="true">
+                <rect x="6" y="18" width="52" height="34" rx="8"/>
+                <path d="M22 18l4-7h12l4 7"/>
+                <circle cx="32" cy="35" r="10"/>
+                <circle cx="32" cy="35" r="4" class="fill-orange"/>
+              </svg>
+              <p id="camera-message">Allow camera access to start your photobooth session.</p>
+              <button class="btn btn-primary" id="btn-camera-retry" type="button" hidden>Try Again</button>
+            </div>
+
+            <div class="stage-badge" id="progress-badge" aria-live="polite">Photo 1 of 3</div>
+            <div class="fill countdown" id="countdown" aria-hidden="true"></div>
+            <div class="fill flash" id="flash"></div>
+          </div>
+
+          <div class="shot-slots" id="shot-slots" aria-label="Photos taken so far"></div>
+        </div>
+
+        <aside class="camera-panel">
+          <div class="panel-block">
+            <p class="panel-label" id="filter-label">Filter</p>
+            <div class="filters" id="filters" role="radiogroup" aria-labelledby="filter-label"></div>
+            <p class="panel-note" id="filter-note" hidden>The filter applies to every photo in your strip.</p>
+          </div>
+
+          <button class="btn btn-primary btn-xl" id="btn-start-capture" type="button" disabled>Start Photos</button>
+          <button class="btn btn-secondary btn-lg" id="btn-cancel-capture" type="button" hidden>Cancel</button>
+          <button class="btn btn-secondary" id="btn-camera-back" type="button">Back</button>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         7. REVIEW / RETAKE
+         ============================================================ -->
+    <section class="screen" id="screen-review" data-screen="review">
+      <div class="screen-inner wide">
+        <h2>Review Your Photos</h2>
+        <p class="hint">Tap a photo to retake just that one.</p>
+
+        <div class="review-grid" id="review-grid"></div>
+
+        <div class="review-actions">
+          <button class="btn btn-secondary btn-lg" id="btn-retake-selected" type="button" disabled>Retake Selected Photo</button>
+          <button class="btn btn-secondary btn-lg" id="btn-retake-all" type="button">Retake All</button>
+          <button class="btn btn-primary btn-lg" id="btn-use-photos" type="button">Use These Photos</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         8. CHOOSE STRIP COLOR
+         ============================================================ -->
+    <section class="screen" id="screen-color" data-screen="color">
+      <div class="color-layout">
+        <div class="color-preview">
+          <canvas id="strip-preview" width="800" height="2000" aria-label="Photostrip preview"></canvas>
+        </div>
+
+        <div class="color-panel">
+          <h2>Choose Your Strip Color</h2>
+
+          <div class="swatches" id="swatches" role="radiogroup" aria-label="Strip color"></div>
+
+          <div class="summary" data-summary hidden>
+            <div class="summary-text" data-summary-text></div>
+            <button class="btn btn-secondary btn-sm" type="button" data-action="change-delivery">Change</button>
+          </div>
+
+          <div class="nav-row">
+            <button class="btn btn-secondary" type="button" data-goto="review">Back</button>
+            <button class="btn btn-primary btn-lg" id="btn-create-strip" type="button">Create Photostrip</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         9. FINAL PREVIEW + ACTIONS
+         ============================================================ -->
+    <section class="screen" id="screen-final" data-screen="final">
+      <div class="final-layout">
+        <div class="final-strip">
+          <img id="final-strip" alt="Your finished photostrip">
+        </div>
+
+        <div class="final-panel">
+          <h2>Your photostrip is ready! ♡</h2>
+
+          <div class="summary summary-static" id="final-delivery" data-summary>
+            <div class="summary-text" data-summary-text></div>
+            <button class="btn btn-secondary btn-sm" type="button" data-action="change-delivery">Change</button>
+          </div>
+
+          <p class="status" id="final-status" role="status" aria-live="polite" hidden></p>
+
+          <div class="final-actions" id="final-actions">
+            <button class="btn btn-lg" type="button" data-final="send" hidden>Send Soft Copy</button>
+            <button class="btn btn-lg" type="button" data-final="print" hidden>Print Photo</button>
+            <button class="btn btn-lg" type="button" data-final="download" hidden>Download Photo</button>
+          </div>
+
+          <button class="btn btn-secondary" id="btn-another" type="button">Take Another Photo</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================================================
+     START OVER confirmation
+     ============================================================ -->
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 id="modal-title">Start over?</h2>
+    <p>Your photos and choices will be cleared.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="modal-cancel" type="button">Keep Going</button>
+      <button class="btn btn-primary" id="modal-confirm" type="button">Start Over</button>
+    </div>
+  </div>
+</div>
+
+<!-- Only this image is printed (see @media print in style.css) -->
+<div id="print-area" aria-hidden="true">
+  <img id="print-strip" alt="Photostrip for printing">
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
